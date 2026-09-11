@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { Check, Loader2 } from "lucide-react";
 import { PLANS, findBillingOption, formatNaira } from "@/lib/plans";
 import PaystackCheckout from "@/components/PaystackCheckout";
+import PasswordInput from "@/components/PasswordInput";
 
 type Step = "plan" | "account" | "pay";
 
@@ -139,9 +140,8 @@ export default function RegisterFlow() {
                   />
                 </Field>
                 <Field label="Password">
-                  <input
+                  <PasswordInput
                     required
-                    type="password"
                     minLength={8}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}

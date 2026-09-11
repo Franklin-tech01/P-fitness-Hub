@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -56,9 +57,8 @@ export default function LoginForm() {
         </label>
         <label className="block">
           <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-brand-gray">Password</span>
-          <input
+          <PasswordInput
             required
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="input"
