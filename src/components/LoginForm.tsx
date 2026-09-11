@@ -23,7 +23,9 @@ export default function LoginForm() {
     try {
       const res = await signIn("credentials", { email, password, redirect: false });
       if (res?.error) {
-        setError("Invalid email or password");
+        setError(
+          "Couldn't sign you in. Double-check your email and password — if they're correct, please wait a moment and try again."
+        );
         return;
       }
       router.push(callbackUrl);
