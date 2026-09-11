@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Check, Loader2 } from "lucide-react";
 import { PLANS, findBillingOption, formatNaira } from "@/lib/plans";
 import PaystackCheckout from "@/components/PaystackCheckout";
@@ -14,12 +14,18 @@ type Step = "plan" | "account" | "pay";
 export default function RegisterFlow() {
   const searchParams = useSearchParams();
   const initialOption = searchParams.get("option") ?? PLANS[1].options[0].id;
+  const { status } = useSession();
 
   const [optionId, setOptionId] = useState(initialOption);
   const [step, setStep] = useState<Step>("account");
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Already signed in (e.g. came back after closing Paystack, hit the back
+  // button, or picked a different plan) - skip straight to payment instead
+  // of showing the registration form again.
+  const effectiveStep: Step = status === "authenticated" ? "pay" : step;
 
   const found = findBillingOption(optionId) ?? findBillingOption(PLANS[1].options[0].id)!;
 
@@ -40,7 +46,27 @@ export default function RegisterFlow() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Registration failed");
+
+      if (!res.ok) {
+        if (res.status === 409) {
+          // Account already exists - most likely this same person trying
+          // again after abandoning checkout earlier. Try signing them in
+          // with what they just typed instead of dead-ending them.
+          const retry = await signIn("credentials", {
+            email: form.email,
+            password: form.password,
+            redirect: false,
+          });
+          if (!retry?.error) {
+            setStep("pay");
+            return;
+          }
+          throw new Error(
+            "An account with this email already exists. Log in to continue with your plan."
+          );
+        }
+        throw new Error(data.error ?? "Registration failed");
+      }
 
       const signInRes = await signIn("credentials", {
         email: form.email,
@@ -65,16 +91,21 @@ export default function RegisterFlow() {
       </div>
 
       <div className="mb-10 flex items-center justify-center gap-4 text-sm font-semibold">
-        <StepBadge active={step === "plan" || step === "account" || step === "pay"} label="1. Plan" />
+        <StepBadge active label="1. Plan" />
         <span className="h-px w-8 bg-black/10" />
-        <StepBadge active={step === "account" || step === "pay"} label="2. Account" />
+        <StepBadge active={effectiveStep === "account" || effectiveStep === "pay"} label="2. Account" />
         <span className="h-px w-8 bg-black/10" />
-        <StepBadge active={step === "pay"} label="3. Payment" />
+        <StepBadge active={effectiveStep === "pay"} label="3. Payment" />
       </div>
 
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
         <div>
           <h2 className="font-display text-lg font-bold">Choose a plan &amp; billing option</h2>
+          {effectiveStep === "pay" && (
+            <p className="mt-1 text-sm text-brand-gray">
+              You can still switch plans below before you pay.
+            </p>
+          )}
           <div className="mt-4 space-y-4">
             {PLANS.map((plan) => (
               <div key={plan.id} className="rounded-2xl border border-black/10 p-5">
@@ -87,9 +118,8 @@ export default function RegisterFlow() {
                     <button
                       key={option.id}
                       type="button"
-                      disabled={step === "pay"}
                       onClick={() => setOptionId(option.id)}
-                      className={`rounded-full border px-4 py-2 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${
+                      className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
                         option.id === optionId
                           ? "border-brand-blue bg-brand-blue text-white"
                           : "border-black/15 hover:border-brand-blue"
@@ -105,7 +135,13 @@ export default function RegisterFlow() {
         </div>
 
         <div>
-          {step === "account" && (
+          {status === "loading" && (
+            <div className="flex items-center justify-center rounded-2xl border border-black/10 bg-white p-6 text-brand-gray">
+              <Loader2 className="animate-spin" size={20} />
+            </div>
+          )}
+
+          {status !== "loading" && effectiveStep === "account" && (
             <form
               onSubmit={handleCreateAccount}
               className="rounded-2xl border border-black/10 bg-white p-6"
@@ -151,7 +187,22 @@ export default function RegisterFlow() {
                 </Field>
               </div>
 
-              {error && <p className="mt-4 text-sm text-brand-red">{error}</p>}
+              {error && (
+                <p className="mt-4 text-sm text-brand-red">
+                  {error}
+                  {error.includes("already exists") && (
+                    <>
+                      {" "}
+                      <Link
+                        href={`/login?callbackUrl=${encodeURIComponent(`/register?option=${optionId}`)}`}
+                        className="font-semibold text-brand-blue"
+                      >
+                        Log in
+                      </Link>
+                    </>
+                  )}
+                </p>
+              )}
 
               <button
                 type="submit"
@@ -164,14 +215,17 @@ export default function RegisterFlow() {
 
               <p className="mt-4 text-center text-xs text-brand-gray">
                 Already a member?{" "}
-                <Link href="/login" className="font-semibold text-brand-blue">
+                <Link
+                  href={`/login?callbackUrl=${encodeURIComponent(`/register?option=${optionId}`)}`}
+                  className="font-semibold text-brand-blue"
+                >
                   Log in
                 </Link>
               </p>
             </form>
           )}
 
-          {step === "pay" && (
+          {status !== "loading" && effectiveStep === "pay" && (
             <PaystackCheckout
               optionId={found.option.id}
               planName={found.plan.name}
