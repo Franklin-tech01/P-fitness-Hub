@@ -18,6 +18,7 @@ function statusBadge(status: string) {
 export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+  if (session.user.role === "admin") redirect("/admin");
 
   const memberships = await prisma.membership.findMany({
     where: { userId: session.user.id },

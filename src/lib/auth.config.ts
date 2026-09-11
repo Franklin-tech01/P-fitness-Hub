@@ -16,17 +16,15 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user?.id) token.id = user.id;
+      if (user?.role) token.role = user.role;
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = token.id as string;
+        session.user.role = (token.role as string) ?? "member";
       }
       return session;
-    },
-    authorized({ auth, request }) {
-      const isDashboard = request.nextUrl.pathname.startsWith("/dashboard");
-      return isDashboard ? !!auth?.user : true;
     },
   },
 } satisfies NextAuthConfig;

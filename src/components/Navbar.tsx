@@ -47,10 +47,10 @@ export default function Navbar() {
           {status === "authenticated" ? (
             <>
               <Link
-                href="/dashboard"
+                href={session?.user?.role === "admin" ? "/admin" : "/dashboard"}
                 className="text-sm font-semibold text-brand-black hover:text-brand-blue"
               >
-                Dashboard
+                {session?.user?.role === "admin" ? "Admin" : "Dashboard"}
               </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
@@ -101,8 +101,12 @@ export default function Navbar() {
             ))}
             {status === "authenticated" ? (
               <>
-                <Link href="/dashboard" onClick={() => setOpen(false)} className="text-sm font-semibold">
-                  Dashboard
+                <Link
+                  href={session?.user?.role === "admin" ? "/admin" : "/dashboard"}
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-semibold"
+                >
+                  {session?.user?.role === "admin" ? "Admin" : "Dashboard"}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
