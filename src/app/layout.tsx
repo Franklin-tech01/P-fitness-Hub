@@ -16,7 +16,7 @@ const oswald = Oswald({
   weight: ["500", "600", "700"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const siteUrl = process.env.APP_URL || "http://localhost:3000";
 const title = "P Fitness Hub | Train. Sweat. Grow.";
 const description =
   "P Fitness Hub is a modern gym offering flexible memberships, expert-led classes and top facilities. Join today and start your transformation.";

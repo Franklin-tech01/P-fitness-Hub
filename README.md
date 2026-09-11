@@ -21,7 +21,7 @@ Copy `.env.example` to `.env` and fill in:
 - `DATABASE_URL` — defaults to a local SQLite file, no changes needed for dev.
 - `AUTH_SECRET` — random 32-byte secret (already generated for local dev in `.env`).
 - `PAYSTACK_SECRET_KEY` / `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` — get test keys from your [Paystack dashboard](https://dashboard.paystack.com/#/settings/developers). Without these, the payment step will show an error when a user tries to pay.
-- `NEXT_PUBLIC_APP_URL` — base URL of the app.
+- `APP_URL` — base URL of the app, used server-side for metadata/Open Graph. Not prefixed with `NEXT_PUBLIC_` since it's never needed in the browser.
 
 ## Notes
 
