@@ -1,10 +1,17 @@
+import { readFileSync } from "fs";
+import { join } from "path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80";
+// Embedded as a local file (rather than fetched from Unsplash) so link-
+// preview crawlers (WhatsApp, Twitter, etc.) never depend on an external
+// network fetch succeeding within their tight timeout.
+const heroImageBase64 = readFileSync(
+  join(process.cwd(), "public/images/og-hero.jpg")
+).toString("base64");
+const HERO_IMAGE = `data:image/jpeg;base64,${heroImageBase64}`;
 
 export default function OpengraphImage() {
   return new ImageResponse(
