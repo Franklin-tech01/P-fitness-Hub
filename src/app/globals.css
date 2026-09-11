@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  /* P Fitness Hub brand palette */
+  --color-brand-black: #0a0a0a;
+  --color-brand-charcoal: #161616;
+  --color-brand-blue: #1e4fd8;
+  --color-brand-blue-light: #3b6ff0;
+  --color-brand-red: #e11d2e;
+  --color-brand-red-light: #ff3b4e;
+  --color-brand-gray: #6b7280;
+  --color-brand-gray-light: #f4f5f7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-black: var(--color-brand-black);
+  --color-brand-charcoal: var(--color-brand-charcoal);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-light: var(--color-brand-blue-light);
+  --color-brand-red: var(--color-brand-red);
+  --color-brand-red-light: var(--color-brand-red-light);
+  --color-brand-gray: var(--color-brand-gray);
+  --color-brand-gray-light: var(--color-brand-gray-light);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-oswald);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out both;
+}
+
+.input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input:focus {
+  border-color: var(--color-brand-blue);
+}
