@@ -60,7 +60,8 @@ export default function Footer() {
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-white/60">
               <li className="flex items-center gap-2"><MapPin size={16} className="shrink-0 text-brand-red" /> 12 Fitness Lane, Lagos, Nigeria</li>
-              <li className="flex items-center gap-2"><Phone size={16} className="shrink-0 text-brand-red" /> +234 800 000 0000</li>
+              <li className="flex items-center gap-2"><Phone size={16} className="shrink-0 text-brand-red" /> 0907 132 0603</li>
+              <li className="flex items-center gap-2"><Phone size={16} className="shrink-0 text-brand-red" /> 0906 377 0036</li>
               <li className="flex items-center gap-2"><Mail size={16} className="shrink-0 text-brand-red" /> hello@pfitnesshub.com</li>
             </ul>
           </div>
