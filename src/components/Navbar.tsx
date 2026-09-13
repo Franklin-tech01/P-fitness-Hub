@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Dumbbell, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -21,9 +22,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-black text-brand-red">
-            <Dumbbell size={18} strokeWidth={2.5} />
-          </span>
+          <Image src="/images/logo-mark.png" alt="" width={49} height={36} priority className="h-9 w-auto" />
           <span>
             P FITNESS <span className="text-brand-blue">HUB</span>
           </span>

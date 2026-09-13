@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Dumbbell, MapPin, Phone, Mail } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Phone, Mail } from "lucide-react";
 import { InstagramIcon, FacebookIcon, XIcon } from "@/components/SocialIcons";
 
 export default function Footer() {
@@ -9,9 +10,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-4">
           <div>
             <div className="flex items-center gap-2 font-display text-lg font-bold text-white">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-brand-red">
-                <Dumbbell size={18} strokeWidth={2.5} />
-              </span>
+              <Image src="/images/logo-mark.png" alt="" width={49} height={36} className="h-9 w-auto" />
               P FITNESS <span className="text-brand-blue-light">HUB</span>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-white/60">
