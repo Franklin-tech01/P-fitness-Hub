@@ -21,11 +21,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-          <Image src="/images/logo-mark.png" alt="" width={49} height={36} priority className="h-9 w-auto" />
-          <span>
-            P FITNESS <span className="text-brand-blue">HUB</span>
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image src="/images/logo.png" alt="P Fitness Hub" width={162} height={104} priority className="h-24 w-auto py-1" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

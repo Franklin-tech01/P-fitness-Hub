@@ -9,9 +9,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2 font-display text-lg font-bold text-white">
-              <Image src="/images/logo-mark.png" alt="" width={49} height={36} className="h-9 w-auto" />
-              P FITNESS <span className="text-brand-blue-light">HUB</span>
+            <div className="flex items-center">
+              <Image src="/images/logo-dark-bg.png" alt="P Fitness Hub" width={193} height={124} className="h-[7.75rem] w-auto" />
             </div>
             <p className="mt-3 text-sm leading-relaxed text-white/60">
               Train. Sweat. Grow. A modern gym built for real results, flexible
