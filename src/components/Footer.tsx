@@ -58,9 +58,18 @@ export default function Footer() {
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-white/60">
               <li className="flex items-center gap-2"><MapPin size={16} className="shrink-0 text-brand-red" /> 157 Ikot Okoro Road, Abak</li>
-              <li className="flex items-center gap-2"><Phone size={16} className="shrink-0 text-brand-red" /> 0907 132 0603</li>
-              <li className="flex items-center gap-2"><Phone size={16} className="shrink-0 text-brand-red" /> 0906 377 0036</li>
-              <li className="flex items-center gap-2"><Mail size={16} className="shrink-0 text-brand-red" /> pfitnesshub01@gmail.com</li>
+              <li className="flex items-center gap-2">
+                <Phone size={16} className="shrink-0 text-brand-red" />
+                <a href="tel:+2349071320603" className="hover:text-white">0907 132 0603</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone size={16} className="shrink-0 text-brand-red" />
+                <a href="tel:+2349063770036" className="hover:text-white">0906 377 0036</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail size={16} className="shrink-0 text-brand-red" />
+                <a href="mailto:pfitnesshub01@gmail.com" className="hover:text-white">pfitnesshub01@gmail.com</a>
+              </li>
             </ul>
           </div>
         </div>
